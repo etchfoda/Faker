@@ -556,10 +556,6 @@ final class BaseTest extends TestCase
         self::assertIsArray($empty);
         self::assertCount(0, $empty);
 
-        $emptyTraversable = BaseProvider::randomElements(new \ArrayIterator(), 0);
-        self::assertIsArray($emptyTraversable);
-        self::assertCount(0, $emptyTraversable);
-
         $shuffled = BaseProvider::randomElements(['foo', 'bar', 'baz'], 3);
         self::assertContains('foo', $shuffled);
         self::assertContains('bar', $shuffled);
@@ -568,6 +564,14 @@ final class BaseTest extends TestCase
         $allowDuplicates = BaseProvider::randomElements(['foo', 'bar'], 3, true);
         self::assertCount(3, $allowDuplicates);
         self::assertContainsOnly('string', $allowDuplicates);
+    }
+
+    public function testRandomElementsAcceptsEmptyTraversable(): void
+    {
+        $randomElements = BaseProvider::randomElements(new \ArrayIterator(), 0);
+
+        self::assertIsArray($randomElements);
+        self::assertCount(0, $randomElements);
     }
 }
 
